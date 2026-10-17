@@ -19,19 +19,10 @@
   }
   document.body.append(field);
 
-  const toggle = document.createElement('button');
-  toggle.type = 'button'; toggle.className = 'motion-toggle';
-  toggle.innerHTML = '<span class="sparkle" aria-hidden="true">✧</span><span>Hiệu ứng</span>';
-  document.body.append(toggle);
   function applyMotionPreference() {
     const enabled = !pausedByUser && !reducedMotion.matches;
     document.body.classList.toggle('motion-paused', !enabled);
-    toggle.setAttribute('aria-pressed', String(enabled));
-    const label = enabled ? 'Tắt hiệu ứng chuyển động' : reducedMotion.matches ? 'Chuyển động đã giảm theo cài đặt thiết bị' : 'Bật hiệu ứng chuyển động';
-    toggle.setAttribute('aria-label', label); toggle.title = label;
-    toggle.disabled = reducedMotion.matches;
   }
-  toggle.addEventListener('click', () => { pausedByUser = !pausedByUser; writeSession('wedding-motion-paused', String(pausedByUser)); applyMotionPreference(); });
   reducedMotion.addEventListener('change', applyMotionPreference);
   applyMotionPreference();
   document.addEventListener('visibilitychange', () => document.body.classList.toggle('page-inactive', document.hidden));
