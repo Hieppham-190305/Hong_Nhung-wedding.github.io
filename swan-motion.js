@@ -4,8 +4,8 @@
 function initializeSwanScene(scene) {
   if (!scene || scene.dataset.rendererStarted) return;
   scene.dataset.rendererStarted = 'true';
-  const isPrologue = Boolean(scene.closest('.wedding-prologue'));
-  const blockedByEnvelope = () => !isPrologue && document.body.classList.contains('welcome-open');
+  const isOpeningScene = Boolean(scene.closest('.wedding-prologue, .welcome-envelope'));
+  const blockedByEnvelope = () => !isOpeningScene && document.body.classList.contains('welcome-open');
   const canvas = document.createElement('canvas');
   canvas.className = 'swan-film'; canvas.setAttribute('aria-hidden', 'true');
   const gl = canvas.getContext('webgl', { alpha: true, antialias: true, depth: false, stencil: false, preserveDrawingBuffer: false, powerPreference: 'low-power' });

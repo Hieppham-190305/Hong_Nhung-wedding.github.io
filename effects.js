@@ -88,6 +88,14 @@
   welcome.innerHTML = `<div class="welcome-scene" aria-hidden="true"></div><div class="welcome-inner"><p class="eyebrow">MỘT LỜI MỜI TỪ TRÁI TIM</p><h2 id="welcome-title"><span>Hồng Nhung</span> <span class="welcome-amp">&</span> <span>Việt Hào</span></h2><p class="welcome-subtitle">Một lời hẹn, một đời bên nhau</p><div class="paper-envelope" aria-hidden="true"><div class="envelope-back"></div><div class="envelope-letter"><span>N & H</span></div><div class="envelope-front"></div><div class="envelope-flap"></div><div class="envelope-seal">NH</div></div><p class="welcome-guest">Trân trọng kính mời<span></span></p><button type="button" class="button primary">Mở thiệp mời <span aria-hidden="true">↗</span></button><p class="welcome-date">06 . 12 . 2026</p></div>`;
   const guestName = new URLSearchParams(location.search).get('guest');
   welcome.querySelector('.welcome-guest span').textContent = guestName?.trim().slice(0, 100) || 'Quý khách';
+  const envelopeScene = document.querySelector('.hero .swan-scene')?.cloneNode(true);
+  if (envelopeScene) {
+    envelopeScene.querySelector('canvas')?.remove();
+    envelopeScene.classList.remove('mesh-ready');
+    delete envelopeScene.dataset.rendererStarted;
+    envelopeScene.removeAttribute('role'); envelopeScene.removeAttribute('aria-label');
+    welcome.querySelector('.welcome-scene').append(envelopeScene);
+  }
   document.body.append(welcome);
   let opening = false;
   function openEnvelope() {
@@ -95,12 +103,13 @@
     opening = true;
     writeSession('wedding-envelope-opened-v3', 'true');
     welcome.classList.add('is-opening');
-    setTimeout(() => { welcome.close(); welcome.remove(); document.body.classList.remove('welcome-open'); scrollTo({ top: 0, behavior: 'instant' }); celebrate(); document.querySelector('.hero-copy .button').focus({ preventScroll: true }); }, pausedByUser || reducedMotion.matches ? 0 : 650);
+    setTimeout(() => { envelopeScene?.dispatchEvent(new Event('swan-scene-destroy')); welcome.close(); welcome.remove(); document.body.classList.remove('welcome-open'); scrollTo({ top: 0, behavior: 'instant' }); celebrate(); document.querySelector('.hero-copy .button').focus({ preventScroll: true }); }, pausedByUser || reducedMotion.matches ? 0 : 650);
   }
   welcome.querySelector('button').addEventListener('click', openEnvelope);
   welcome.addEventListener('cancel', event => { event.preventDefault(); openEnvelope(); });
   welcome.showModal();
   document.body.classList.add('welcome-open');
+  envelopeScene?.dispatchEvent(new Event('wedding-scene-mounted', { bubbles: true }));
   }
   document.getElementById('reopen-envelope')?.addEventListener('click', showPrologue);
   if (location.hash || readSession('wedding-envelope-opened-v3') === 'true') celebrate();
