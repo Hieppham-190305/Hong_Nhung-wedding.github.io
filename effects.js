@@ -47,6 +47,13 @@
   updateProgress();
 
   function celebrate() { document.body.classList.add('celebrating'); }
+  const closingGarden = document.querySelector('.closing-garden');
+  const closingScene = document.querySelector('.hero .swan-scene')?.cloneNode(true);
+  if (closingGarden && closingScene) {
+    closingScene.removeAttribute('role'); closingScene.removeAttribute('aria-label');
+    closingGarden.append(closingScene);
+    closingGarden.classList.add('has-new-swans');
+  }
   // A short illustrated prelude leads into the existing invitation envelope.
   function showPrologue() {
     if (document.querySelector('.wedding-prologue, .welcome-envelope')) return;

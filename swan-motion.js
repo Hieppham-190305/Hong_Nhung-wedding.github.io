@@ -140,10 +140,10 @@ function initializeSwanScene(scene) {
       gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
       gl.useProgram(bird); attribute(bird,mesh); gl.bindTexture(gl.TEXTURE_2D,birdTexture);
       gl.uniform1i(birdU.u_image,0); gl.uniform2f(birdU.u_size,width,height); gl.uniform1f(birdU.u_time,time);
-      const w=width*.47,h=w*4/3,top=height*.82-h;
+      const w=Math.min(width*.47,height*.48),h=w*4/3,top=height*.82-h;
       for (const reflected of [1,0]) for (const side of [0,1]) {
         gl.uniform1f(birdU.u_side,side); gl.uniform1f(birdU.u_reflection,reflected);
-        gl.uniform4f(birdU.u_rect,side ? width*.515 : width*.015,top,w,h);
+        gl.uniform4f(birdU.u_rect,side ? width*.515 : width*.485-w,top,w,h);
         gl.drawArrays(gl.TRIANGLES,0,points.length/2);
       }
     }
