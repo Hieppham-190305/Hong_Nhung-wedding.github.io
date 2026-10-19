@@ -47,6 +47,40 @@
   updateProgress();
 
   function celebrate() { document.body.classList.add('celebrating'); }
+  // A short illustrated prelude leads into the existing invitation envelope.
+  function showPrologue() {
+    if (document.querySelector('.wedding-prologue, .welcome-envelope')) return;
+    const originalScene = document.querySelector('.hero .swan-scene');
+    if (!originalScene || reducedMotion.matches || pausedByUser) { showEnvelope(); return; }
+    const intro = document.createElement('dialog');
+    intro.className = 'wedding-prologue';
+    intro.setAttribute('aria-labelledby', 'prologue-title');
+    intro.innerHTML = `<div class="prologue-atmosphere" aria-hidden="true"></div><div class="prologue-stage"><div class="prologue-landscape" aria-hidden="true"></div><div class="prologue-flowers" aria-hidden="true"></div><div class="prologue-copy"><p class="prologue-kicker">MỘT LỜI HẸN · MỘT ĐỜI BÊN NHAU</p><h2 id="prologue-title">Hồng Nhung<span>&</span>Việt Hào</h2><p class="prologue-date">06 . 12 . 2026</p><p class="prologue-note">Câu chuyện của chúng mình bắt đầu…</p></div></div><button type="button" class="prologue-skip">Bỏ qua <span aria-hidden="true">↗</span></button><div class="prologue-progress" aria-hidden="true"><span></span></div>`;
+    const scene = originalScene.cloneNode(true);
+    scene.querySelector('canvas')?.remove();
+    scene.classList.remove('mesh-ready');
+    delete scene.dataset.rendererStarted;
+    scene.removeAttribute('role'); scene.removeAttribute('aria-label');
+    intro.querySelector('.prologue-landscape').append(scene);
+    document.body.append(intro);
+    let finished = false;
+    function finish() {
+      if (finished) return;
+      finished = true;
+      reducedMotion.removeEventListener('change', onPreferenceChange);
+      scene.dispatchEvent(new Event('swan-scene-destroy'));
+      intro.close(); intro.remove();
+      showEnvelope();
+    }
+    function onPreferenceChange() { if (reducedMotion.matches) finish(); }
+    reducedMotion.addEventListener('change', onPreferenceChange);
+    intro.querySelector('button').addEventListener('click', finish);
+    intro.querySelector('.prologue-progress span').addEventListener('animationend', finish, { once: true });
+    intro.addEventListener('cancel', event => { event.preventDefault(); finish(); });
+    document.body.classList.add('welcome-open');
+    intro.showModal();
+    scene.dispatchEvent(new Event('wedding-scene-mounted', { bubbles: true }));
+  }
   // A direct section link stays a direct section link. The envelope appears once per tab.
   function showEnvelope() {
   const welcome = document.createElement('dialog');
@@ -59,7 +93,7 @@
   function openEnvelope() {
     if (opening) return;
     opening = true;
-    writeSession('wedding-envelope-opened-v2', 'true');
+    writeSession('wedding-envelope-opened-v3', 'true');
     welcome.classList.add('is-opening');
     setTimeout(() => { welcome.close(); welcome.remove(); document.body.classList.remove('welcome-open'); scrollTo({ top: 0, behavior: 'instant' }); celebrate(); document.querySelector('.hero-copy .button').focus({ preventScroll: true }); }, pausedByUser || reducedMotion.matches ? 0 : 650);
   }
@@ -68,7 +102,7 @@
   welcome.showModal();
   document.body.classList.add('welcome-open');
   }
-  document.getElementById('reopen-envelope')?.addEventListener('click', showEnvelope);
-  if (location.hash || readSession('wedding-envelope-opened-v2') === 'true') celebrate();
-  else showEnvelope();
+  document.getElementById('reopen-envelope')?.addEventListener('click', showPrologue);
+  if (location.hash || readSession('wedding-envelope-opened-v3') === 'true') celebrate();
+  else showPrologue();
 })();

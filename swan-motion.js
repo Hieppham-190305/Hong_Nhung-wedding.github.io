@@ -1,9 +1,11 @@
 'use strict';
 /* Articulated illustration: a continuous mesh bends the neck and wings without
    cutting the painting into rigid parts. Existing CSS is the no-WebGL fallback. */
-(() => {
-  const scene = document.querySelector('.swan-scene');
-  if (!scene) return;
+function initializeSwanScene(scene) {
+  if (!scene || scene.dataset.rendererStarted) return;
+  scene.dataset.rendererStarted = 'true';
+  const isPrologue = Boolean(scene.closest('.wedding-prologue'));
+  const blockedByEnvelope = () => !isPrologue && document.body.classList.contains('welcome-open');
   const canvas = document.createElement('canvas');
   canvas.className = 'swan-film'; canvas.setAttribute('aria-hidden', 'true');
   const gl = canvas.getContext('webgl', { alpha: true, antialias: true, depth: false, stencil: false, preserveDrawingBuffer: false, powerPreference: 'low-power' });
@@ -26,6 +28,7 @@
       buffers.forEach(b => gl.deleteBuffer(b)); textures.forEach(t => gl.deleteTexture(t));
     }
   }
+  scene.addEventListener('swan-scene-destroy', cleanUp, { once: true });
   canvas.addEventListener('webglcontextlost', event => { event.preventDefault(); cleanUp(); });
   function program(vertexSource, fragmentSource) {
     function compile(type, source) {
@@ -146,7 +149,7 @@
     }
     function tick(now) {
       frame=0;
-      if(!alive || !ready || document.hidden || !visible || reduced.matches || document.body.classList.contains('motion-paused') || document.body.classList.contains('welcome-open')) return;
+      if(!alive || !ready || document.hidden || !visible || reduced.matches || document.body.classList.contains('motion-paused') || blockedByEnvelope()) return;
       if(!last) last=now;
       const delta=now-last;
       if(delta>=1000/30) { elapsed+=Math.min(delta,100)/1000; last=now; render(elapsed); }
@@ -158,7 +161,7 @@
       if(!ready || !alive) return;
       stop();
       if(reduced.matches || document.body.classList.contains('motion-paused')) render(8);
-      else if(!document.hidden && visible && !document.body.classList.contains('welcome-open')) { render(elapsed); start(); }
+      else if(!document.hidden && visible && !blockedByEnvelope()) { render(elapsed); start(); }
     };
     Promise.all([image(scene.querySelector('.swan-lake').src), image(scene.querySelector('.swan-sprite img').src)]).then(([background,sprites]) => {
       if(!alive) return;
@@ -174,4 +177,6 @@
   } catch (error) { console.warn('Swan animation fallback:', error.message); cleanUp(); }
   // Hoisted for cleanup; replaced with the initialized renderer's lifecycle.
   function sync() {}
-})();
+}
+document.querySelectorAll('.swan-scene').forEach(initializeSwanScene);
+document.addEventListener('wedding-scene-mounted', event => initializeSwanScene(event.target));

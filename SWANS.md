@@ -8,10 +8,14 @@ Files:
 - `swan-lake.webp`: empty painted lake backdrop, 1024 × 1536.
 - `swans.css`: a 20-second slow camera pullback and CSS swimming fallback.
 - `swan-motion.js`: an articulated mesh bends each neck and flexes the painted wings; the swans approach each other on a 20-second cycle. The lake surface and compressed reflections move with the scene. WebGL renders at up to 30 frames per second with capped pixel density. The original CSS sprites remain available if WebGL is unavailable or the graphics context is lost.
-- Motion stops for the device's reduced-motion preference. The renderer pauses while the opening invitation is shown, the scene is offscreen, or the tab is hidden. It resumes without skipping ahead.
+- Motion stops for the device's reduced-motion preference. The hero renderer pauses while the opening invitation is shown, the scene is offscreen, or the tab is hidden. It resumes without skipping ahead.
 - `index.html`: scene layers and accessible description; the decorative sprite images have empty alt text.
 
 The two images total approximately 520 KB and are reused as textures. There is no animation button, no audio and no external animation library. The motion is a live illustrated interpretation of the reference, not the original Pinterest video. Original static artwork remains available in the repository.
+
+## Opening prologue
+
+An 11-second fullscreen prologue reuses the lake and swan assets before the envelope screen. It pulls back from the swans, reveals the couple's names and date, then opens the existing envelope dialog. Skip or Escape advances immediately. The timeline pauses while the tab is hidden. Reduced motion bypasses the prologue. Each renderer has its own lifecycle; the temporary renderer releases its GPU resources on completion or skip. A new session key ensures existing visitors can see the new opening once. No Pinterest media is downloaded or embedded.
 
 ## ImageGen prompt: transparent swans
 

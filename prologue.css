@@ -1,0 +1,32 @@
+/* A painted 11-second prologue, followed by the invitation envelope. */
+.wedding-prologue{position:fixed;inset:0;margin:0;padding:0;border:0;width:100%;max-width:none;height:100%;height:100dvh;max-height:none;overflow:hidden;background:#e5e4d8;color:#725c38;isolation:isolate}
+.wedding-prologue::backdrop{background:#e5e4d8}
+.prologue-atmosphere{position:absolute;inset:-40px;background:linear-gradient(#f6eed350,#b8bdae40),url('swan-lake.webp') center/cover;filter:blur(25px);transform:scale(1.08)}
+.prologue-stage{position:relative;margin:auto;width:min(100%,calc(100dvh * .69));height:100%;overflow:hidden;box-shadow:0 0 100px #68674e24;background:#e7e5d6}
+.prologue-landscape{position:absolute;inset:0;transform-origin:50% 70%;animation:prologue-pullback 11s cubic-bezier(.2,.55,.35,1) both}
+.prologue-landscape .swan-scene{border-radius:0;animation:none;transform:none;height:100%;width:100%}
+.prologue-landscape .swan-lake{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.prologue-landscape .swan-sprite img{position:absolute;inset:0 auto auto 0;width:200%;max-width:none;height:100%;object-fit:fill;transform:none}
+.prologue-landscape .swan-sprite--right img{transform:translateX(-50%)}
+.prologue-landscape .swan-reflection img{transform:scaleY(-1)}
+.prologue-landscape .swan-sprite--right .swan-reflection img{transform:translateX(-50%) scaleY(-1)}
+.prologue-stage:after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,#f9f3e9c9,transparent 45%,transparent 82%,#ece4c640);box-shadow:inset 0 0 80px #b8aa7140;z-index:4}
+.prologue-flowers{position:absolute;inset:0;z-index:5;pointer-events:none;background:url('botanical.svg') left -30px top -30px/47% no-repeat,url('botanical.svg') right -35px bottom -40px/53% no-repeat;opacity:.65;animation:prologue-florals 11s ease-out both}
+.prologue-copy{position:absolute;z-index:6;inset:11% 20px auto;text-align:center;text-shadow:0 1px 14px #fff9}
+.prologue-kicker{font:500 clamp(7px,1.4vh,10px)/1.8 var(--sans);letter-spacing:2.5px;animation:prologue-words 1.8s 3s both}
+.prologue-copy h2{font:clamp(43px,7.5vh,73px)/1.08 var(--script);font-weight:400;margin:22px 0;color:#806038;animation:prologue-words 2s 3.7s both}
+.prologue-copy h2 span{display:block;font:italic .47em/1.6 var(--serif)}
+.prologue-date{font:500 10px/1.8 var(--sans);letter-spacing:4px;margin:22px 0 0;animation:prologue-words 1.6s 4.7s both}
+.prologue-note{font:italic clamp(15px,2.4vh,21px)/1.5 var(--serif);margin-top:18px;animation:prologue-words 1.6s 5.4s both}
+.prologue-skip{position:absolute;z-index:8;right:max(22px,env(safe-area-inset-right));top:max(22px,env(safe-area-inset-top));border:1px solid #a28a5840;border-radius:30px;padding:11px 18px;background:#fffcf0e6;color:#725c38;font:500 10px var(--sans);letter-spacing:.5px;cursor:pointer;box-shadow:0 3px 20px #5d563b0a}
+.prologue-skip:focus-visible{outline:2px solid #82653b;outline-offset:4px}
+.prologue-skip span{margin-left:12px}
+.prologue-progress{position:absolute;bottom:0;left:0;right:0;height:3px;background:#f9f4e65c;z-index:8}
+.prologue-progress span{display:block;height:100%;background:#a58b54;transform-origin:left;animation:prologue-duration 11s linear both}
+@keyframes prologue-pullback{0%{transform:scale(1.65) translateY(-5%)}75%,100%{transform:scale(1) translateY(0)}}
+@keyframes prologue-florals{0%,12%{transform:scale(1.3);opacity:0}70%,100%{transform:scale(1);opacity:.65}}
+@keyframes prologue-words{from{opacity:0;transform:translateY(16px);filter:blur(3px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
+@keyframes prologue-duration{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.page-inactive .wedding-prologue *{animation-play-state:paused}
+@media(max-width:600px){.prologue-stage{width:100%;box-shadow:none}.prologue-copy{top:12%}.prologue-copy h2{font-size:clamp(43px,7.6vh,66px)}.prologue-skip{top:16px;right:16px;padding:10px 15px}.prologue-kicker{font-size:7px;letter-spacing:2px}.prologue-note{font-size:17px}}
+@media(prefers-reduced-motion:reduce){.wedding-prologue *{animation:none!important}}
