@@ -1,0 +1,24 @@
+/* Two independent transparent swan sprites over a painted lake. */
+.swan-scene{position:relative;width:100%;height:100%;overflow:hidden;border-radius:240px 240px 2px 2px;isolation:isolate;background:#dfded2;contain:paint}
+.art-frame .swan-lake{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;border-radius:0;filter:saturate(.8);transform:none!important;transition:none}
+.swan-sprite{position:absolute;bottom:18%;width:47%;aspect-ratio:3/4;z-index:3;will-change:transform;pointer-events:none;transform-origin:50% 80%}
+.swan-sprite--left{left:1.5%;animation:swan-glide-left 16s ease-in-out infinite}
+.swan-sprite--right{right:1.5%;animation:swan-glide-right 16s ease-in-out infinite}
+.swan-bob{position:relative;width:100%;height:100%;overflow:hidden;animation:swan-float 5.5s ease-in-out infinite}
+.swan-sprite--right .swan-bob{animation-delay:-2.75s}
+.art-frame .swan-sprite img{position:absolute;inset:0 auto auto 0;width:200%;max-width:none;height:100%;object-fit:fill;border-radius:0;filter:none;transition:none;transform:none;user-select:none}
+.art-frame .swan-sprite--right img{transform:translateX(-50%)}
+.swan-reflection{position:absolute;top:62%;left:0;width:100%;height:100%;overflow:hidden;opacity:.13;filter:blur(.6px);mask-image:linear-gradient(to bottom,#000,transparent 55%);pointer-events:none}
+.art-frame .swan-reflection img{transform:scaleY(-1)}
+.art-frame .swan-sprite--right .swan-reflection img{transform:translateX(-50%) scaleY(-1)}
+.swan-wake{position:absolute;bottom:24.5%;width:45%;height:5%;z-index:2;border-radius:50%;border:1px solid #fff9;box-shadow:0 0 0 5px #fff2,0 0 0 12px #738c7a17;animation:swan-ripples 5s ease-out infinite;pointer-events:none}
+.swan-wake--left{left:2%}.swan-wake--right{right:2%;animation-delay:-2.5s}
+.lake-shimmer{position:absolute;inset:37% 0 10%;z-index:1;background:repeating-linear-gradient(174deg,transparent 0 30px,#fffcdd20 32px,transparent 34px 65px);background-size:180% 180%;mix-blend-mode:soft-light;animation:lake-light 14s linear infinite;pointer-events:none}
+.art-frame .art-caption{z-index:4;pointer-events:none}
+@keyframes swan-glide-left{0%,100%{transform:translate3d(0,0,0) rotate(-.6deg)}45%,60%{transform:translate3d(4.5%,-1%,0) rotate(.6deg)}}
+@keyframes swan-glide-right{0%,100%{transform:translate3d(0,-1%,0) rotate(.6deg)}45%,60%{transform:translate3d(-4.5%,0,0) rotate(-.6deg)}}
+@keyframes swan-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+@keyframes swan-ripples{0%{transform:scale(.75,.65);opacity:0}20%{opacity:.5}100%{transform:scale(1.2,1.25);opacity:0}}
+@keyframes lake-light{from{background-position:0 0}to{background-position:100% 100%}}
+.motion-paused .swan-sprite,.motion-paused .swan-bob,.motion-paused .swan-wake,.motion-paused .lake-shimmer,.page-inactive .swan-sprite,.page-inactive .swan-bob,.page-inactive .swan-wake,.page-inactive .lake-shimmer{animation-play-state:paused}
+@media(prefers-reduced-motion:reduce){.swan-sprite,.swan-bob,.swan-wake,.lake-shimmer{animation:none}.swan-wake{opacity:.3;transform:scale(.9)}}
