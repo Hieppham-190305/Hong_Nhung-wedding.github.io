@@ -6,10 +6,12 @@ Files:
 
 - `swans-pair.webp`: transparent two-cell sprite atlas, 1536 × 1024. Each half is displayed independently using CSS clipping.
 - `swan-lake.webp`: empty painted lake backdrop, 1024 × 1536.
-- `swans.css`: 16-second seamless swimming cycle. The background and both swans remain still when the device requests reduced motion. Animation pauses when the page is hidden or the existing reduced-motion preference is active.
+- `swans.css`: a 20-second slow camera pullback and CSS swimming fallback.
+- `swan-motion.js`: an articulated mesh bends each neck and flexes the painted wings; the swans approach each other on a 20-second cycle. The lake surface and compressed reflections move with the scene. WebGL renders at up to 30 frames per second with capped pixel density. The original CSS sprites remain available if WebGL is unavailable or the graphics context is lost.
+- Motion stops for the device's reduced-motion preference. The renderer pauses while the opening invitation is shown, the scene is offscreen, or the tab is hidden. It resumes without skipping ahead.
 - `index.html`: scene layers and accessible description; the decorative sprite images have empty alt text.
 
-The two new images total approximately 520 KB. There is no animation button, no audio and no external animation library. Original static artwork remains available in the repository.
+The two images total approximately 520 KB and are reused as textures. There is no animation button, no audio and no external animation library. The motion is a live illustrated interpretation of the reference, not the original Pinterest video. Original static artwork remains available in the repository.
 
 ## ImageGen prompt: transparent swans
 

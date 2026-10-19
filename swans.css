@@ -22,3 +22,11 @@
 @keyframes lake-light{from{background-position:0 0}to{background-position:100% 100%}}
 .motion-paused .swan-sprite,.motion-paused .swan-bob,.motion-paused .swan-wake,.motion-paused .lake-shimmer,.page-inactive .swan-sprite,.page-inactive .swan-bob,.page-inactive .swan-wake,.page-inactive .lake-shimmer{animation-play-state:paused}
 @media(prefers-reduced-motion:reduce){.swan-sprite,.swan-bob,.swan-wake,.lake-shimmer{animation:none}.swan-wake{opacity:.3;transform:scale(.9)}}
+.swan-film{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
+.mesh-ready .swan-sprite,.mesh-ready .swan-wake,.mesh-ready .lake-shimmer{visibility:hidden}
+.mesh-ready .swan-sprite,.mesh-ready .swan-bob,.mesh-ready .swan-wake,.mesh-ready .lake-shimmer{animation:none}
+.art-frame{overflow:hidden}
+.swan-scene{transform-origin:50% 60%;animation:swan-camera 20s cubic-bezier(.3,0,.3,1) infinite}
+@keyframes swan-camera{0%,100%{transform:scale(1.12)}45%,75%{transform:scale(1)}}
+.motion-paused .swan-scene,.page-inactive .swan-scene{animation-play-state:paused}
+@media(prefers-reduced-motion:reduce){.swan-scene{animation:none;transform:none}}

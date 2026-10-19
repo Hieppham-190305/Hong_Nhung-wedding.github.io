@@ -20,7 +20,7 @@ Trong **Settings → Pages**, chọn **Deploy from a branch**, nhánh **main**, 
 - `style.css`, `effects.css`, `atelier.css`: kiểu chữ, màu sắc và bố cục điện thoại.
 - `app.js`: đếm ngược và tải lịch ICS.
 - `effects.js`: mở thiệp, hiệu ứng cuộn và chuyển động nhẹ; hỗ trợ giảm chuyển động theo cài đặt thiết bị.
-- `swans.css`, `swans-pair.webp`, `swan-lake.webp`: hai thiên nga chuyển động riêng trên mặt hồ. Chi tiết và prompt minh họa tại `SWANS.md`.
+- `swan-motion.js`, `swans.css`, `swans-pair.webp`, `swan-lake.webp`: hai thiên nga bơi lại gần nhau, uốn cổ, cử động cánh và có bóng phản chiếu, mặt nước chuyển động, hiệu ứng lùi khung hình. Tự dùng cách hiển thị nhẹ hơn nếu WebGL không khả dụng. Chi tiết và prompt minh họa tại `SWANS.md`.
 - `swan-garden.webp`, `swans.jpg`, `botanical.svg`: minh họa thiên nga và hoa văn. Tranh `swan-garden.webp` được tạo bằng ImageGen, không phải ảnh chụp cô dâu, chú rể hay địa điểm.
 
 Website không thu thập thông tin khách hoặc xác nhận tham dự. Font chữ tải từ Google Fonts với font dự phòng. Đường dẫn có tham số `?guest=...` hiển thị tên khách trên thiệp mà không lưu dữ liệu vào máy chủ.
